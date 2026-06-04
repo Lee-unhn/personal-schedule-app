@@ -1,81 +1,84 @@
 # Personal Schedule Manager
 
-## 專案總覽
+> Full-stack 個人行程管理 web app · Vue 3 前端 + Flask 後端 + SQLite
 
-這是一個功能完整的全端網頁應用程式，旨在提供一個現代化、互動性強的介面，用於管理個人行程與待辦事項。
+**Author**: [@Lee-unhn](https://github.com/Lee-unhn) · a2264563@gmail.com
 
----
+## 專案簡介 / Overview
 
-## 專案架構
+一個前後端分離的個人行程／待辦事項管理應用。前端用 Vue 3 + `v-calendar` 提供互動式日曆，後端用 Flask + SQLAlchemy + SQLite 提供 RESTful CRUD API。整體採深色主題設計。
 
-本專案採用前後端分離的架構：
+## 架構 / Architecture
 
-*   **後端 (Backend)**:
-    *   **框架**: Python / Flask
-    *   **資料庫**: SQLAlchemy ORM 搭配 SQLite
-    *   **功能**: 提供一個 RESTful API 來處理所有與行程相關的 CRUD (新增、讀取、更新、刪除) 操作，並支援 CORS 以允許前端跨域請求。
+```mermaid
+flowchart LR
+    U[Browser] --> FE[Vue 3 Frontend · :8080]
+    FE --> RT[Vue Router]
+    FE --> CAL[v-calendar 元件]
+    FE -->|Axios HTTP| API[Flask Backend · :5000]
+    API --> ORM[SQLAlchemy ORM]
+    ORM --> DB[(SQLite · schedule.db)]
+    API -.CORS.-> FE
+```
 
-*   **前端 (Frontend)**:
-    *   **框架**: Vue.js 3
-    *   **核心工具**:
-        *   `Vue Router`: 用於頁面導覽。
-        *   `Axios`: 用於與後端 API 進行非同步通訊。
-        *   `v-calendar`: 一個功能強大的日曆元件，用於視覺化地展示行程。
-    *   **功能**: 提供所有使用者互動介面，包括日曆檢視、任務列表、新增/編輯表單等。
+## 技術棧 / Tech Stack
 
----
+**Backend**
+- Python / Flask
+- SQLAlchemy ORM + SQLite
+- Flask-CORS
 
-## 主要功能
+**Frontend**
+- Vue.js 3
+- Vue Router (頁面導覽)
+- Axios (與後端通訊)
+- v-calendar (日曆元件)
 
-*   **行程儀表板**: 整合日曆與任務列表，集中顯示今日與本週的重要任務。
-*   **互動式日曆**:
-    *   在日曆上以不同顏色的圓點標示不同優先級的任務。
-    *   點擊特定日期可篩選並顯示當天的所有行程。
-*   **詳細的任務列表**:
-    *   按優先級、日期和時間排序任務。
-    *   清楚地區分已完成和未完成的任務。
-*   **CRUD 操作**:
-    *   透過彈出式視窗 (Modal) 新增或編輯行程。
-    *   可設定任務的內容、日期、時間和優先級（高、中、低）。
-    *   一鍵標記任務為完成/未完成。
-    *   刪除不再需要的任務。
-*   **現代化深色主題**: 整體採用具有科技感的深色主題，提供舒適的視覺體驗。
+## 主要檔案 / Key Files
 
----
+- `backend/app.py` · Flask app + REST API + SQLAlchemy 模型
+- `backend/requirements.txt` · Python 依賴
+- `backend/instance/schedule.db` · SQLite 資料庫 (自動建立)
+- `frontend/` · Vue 3 SPA (`npm run serve` 啟動)
+- `frontend/babel.config.js` · Babel 設定
 
-## 環境設置與執行
+## 功能 / Features
 
-您需要分別啟動後端伺服器和前端開發伺服器。
+- **行程儀表板** · 日曆 + 任務列表整合，顯示今日／本週重要任務
+- **互動式日曆** · 日期上以不同顏色圓點標示優先級，點日期篩選當天行程
+- **任務列表** · 按優先級／日期／時間排序，區分已完成/未完成
+- **CRUD** · 彈出式 Modal 新增/編輯，可設內容/日期/時間/優先級（高中低），可一鍵標完成、刪除
+- **深色主題** · 整體科技感深色 UI
+
+## 使用 / Usage
+
+需要分別啟動後端和前端。
 
 ### 1. 啟動後端 (Backend)
 
 ```bash
-# 1. 進入後端資料夾
 cd backend
 
-# 2. (建議) 建立並啟用虛擬環境
+# (建議) 建虛擬環境
 # python -m venv venv
 # venv\Scripts\activate
 
-# 3. 安裝 Python 依賴
 pip install -r requirements.txt
-
-# 4. 啟動 Flask 伺服器
-# 首次執行時，它會自動建立資料庫檔案
 python app.py
 ```
-後端服務將會運行在 `http://localhost:5000`。
+
+後端運行在 `http://localhost:5000`。首次執行會自動建立資料庫檔案。
 
 ### 2. 啟動前端 (Frontend)
 
 ```bash
-# 1. 進入前端資料夾
 cd frontend
-
-# 2. 安裝 Node.js 依賴
 npm install
-
-# 3. 啟動 Vue 開發伺服器
 npm run serve
 ```
-前端應用程式將會運行在 `http://localhost:8080` (或終端機提示的其他埠號)。請在瀏覽器中開啟此網址來使用本應用程式。
+
+前端運行在 `http://localhost:8080` (或終端提示的其他埠號)。在瀏覽器開啟即可使用。
+
+## License
+
+Unlicensed (personal project) — 若要使用請先聯絡作者。
